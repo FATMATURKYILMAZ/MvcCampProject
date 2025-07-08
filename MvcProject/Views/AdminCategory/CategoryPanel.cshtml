@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "CategoryPanel";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="my-4">Category Panel</h2>
+
+<style>
+    .stat-box {
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 12px;
+        padding: 30px;
+        font-size: 18px;
+    }
+
+        .stat-box h4 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stat-box + .stat-box {
+            margin-left: 20px;
+        }
+
+    .row-spacing {
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container">
+    <!-- 1. Satır -->
+    <div class="row justify-content-center text-white text-center row-spacing">
+        <div class="col-md-3 mx-4">
+            <div class="stat-box bg-primary">
+                <h4>@ViewBag.ToplamKategori</h4>
+                <div>Toplam Kategori</div>
+            </div>
+        </div>
+        <div class="col-md-3 mx-4">
+            <div class="stat-box bg-success">
+                <h4>@ViewBag.YazilimBaslikSayisi</h4>
+                <div>"Yazılım" Kategorisi Başlık Sayısı</div>
+            </div>
+        </div>
+        <div class="col-md-3 mx-4">
+            <div class="stat-box bg-info">
+                <h4>@ViewBag.AliYazarSayisi</h4>
+                <div>'a' Harfi Geçen Yazar Sayısı</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Satır -->
+    <div class="row justify-content-center text-white text-center row-spacing">
+        <div class="col-md-4 mx-4">
+            <div class="stat-box bg-warning text-dark">
+                <h4>@ViewBag.EnFazlaBaslikliKategori</h4>
+                <div>En Fazla Başlığa Sahip Kategori</div>
+            </div>
+        </div>
+        <div class="col-md-4 mx-4">
+            <div class="stat-box bg-danger">
+                <h4>@ViewBag.AktifPasifFark</h4>
+                <div>Aktif - Pasif Kategori Farkı</div>
+            </div>
+        </div>
+    </div>
+</div>

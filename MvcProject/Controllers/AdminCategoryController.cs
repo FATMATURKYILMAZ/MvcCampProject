@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationsRules;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.Entity_Framework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -61,5 +62,55 @@ namespace MvcProject.Controllers
             cm.CategoryUpdate(p);
             return RedirectToAction("Index");
         }
+        public ActionResult CategoryCount()
+        {
+            var kategoriler = cm.GetList(); // cm = CategoryManager
+
+            ViewBag.ToplamKategori = kategoriler.Count(); // Toplam sayıyı alıyoruz
+            return View();
+        }
+        public ActionResult CategoryPanel()
+        {
+            var kategoriler = cm.GetList(); // cm = CategoryManager
+
+            ViewBag.ToplamKategori = kategoriler.Count(); // Toplam sayıyı alıyoruz
+
+            using (Context c = new Context())
+            {
+                int yazilimBaslikSayisi = c.Headings
+                    .Count(h => h.Category.CategoryName == "Yazılım");
+
+                ViewBag.YazilimBaslikSayisi = yazilimBaslikSayisi;
+            }
+            using (Context c = new Context())
+            {
+                int aIcerenYazarSayisi = c.Writers
+                    .Count(w => w.WriterName.ToLower().Contains("a"));
+
+                ViewBag.AliYazarSayisi = aIcerenYazarSayisi;
+            }
+            using (Context c = new Context())
+            {
+                var enFazlaBaslikliKategori = c.Headings
+                    .GroupBy(h => h.Category.CategoryName)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => g.Key)
+                    .FirstOrDefault();
+
+                ViewBag.EnFazlaBaslikliKategori = enFazlaBaslikliKategori;
+            }
+            using (Context c = new Context())
+            {
+                int aktif = c.Categories.Count(x => x.CategoryStatus == true);
+                int pasif = c.Categories.Count(x => x.CategoryStatus == false);
+                int fark = Math.Abs(aktif - pasif); // Mutlak değer alınır
+
+                ViewBag.AktifPasifFark = fark;
+            }
+
+            return View();
+        }
+
+
     }
 }
