@@ -24,6 +24,11 @@ namespace BusinessLayer.Concrete
             return _headingDal.Get(x => x.HeadingID == id);
         }
 
+        public List<Heading> GetList()
+        {
+            throw new NotImplementedException();
+        }
+
         //public List<Heading> GetList()
         //{
         //    return _headingDal.List();
