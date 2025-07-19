@@ -17,8 +17,12 @@ namespace DataAccessLayer.Entity_Framework
         {
             using (var context = new Context())
             {
-                return context.Headings.Include(x => x.Category).ToList();
+                return context.Headings
+                              .Include(x => x.Category)
+                              .Include(x => x.Writer) // Bu satırı ekle
+                              .ToList();
             }
         }
+
     }
 }
