@@ -56,16 +56,18 @@
     <Compile Include="Abstract\IContactDal.cs" />
     <Compile Include="Abstract\IContentDal.cs" />
     <Compile Include="Abstract\IHeadingDal.cs" />
+    <Compile Include="Abstract\IMessageDal.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\IWriterDal.cs" />
     <Compile Include="Concrete\Context.cs" />
     <Compile Include="Concrete\Repositories\CategoryRepositories.cs" />
     <Compile Include="Concrete\Repositories\GenericRepository.cs" />
     <Compile Include="Entity Framework\EfAboutDal.cs" />
-    <Compile Include="Entity Framework\EfCantactDal.cs" />
+    <Compile Include="Entity Framework\EfContactDal.cs" />
     <Compile Include="Entity Framework\EfCategoryDal.cs" />
     <Compile Include="Entity Framework\EfContentDal.cs" />
     <Compile Include="Entity Framework\EfHeadingDal.cs" />
+    <Compile Include="Entity Framework\EfMessageDal.cs" />
     <Compile Include="Entity Framework\EfWriterDal.cs" />
     <Compile Include="Migrations\202507011602135_mig1.cs" />
     <Compile Include="Migrations\202507011602135_mig1.Designer.cs">
@@ -98,6 +100,10 @@
     <Compile Include="Migrations\202507191334460_mig_headingtitlechange.cs" />
     <Compile Include="Migrations\202507191334460_mig_headingtitlechange.Designer.cs">
       <DependentUpon>202507191334460_mig_headingtitlechange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202507210630433_mig_addmessageclass.cs" />
+    <Compile Include="Migrations\202507210630433_mig_addmessageclass.Designer.cs">
+      <DependentUpon>202507210630433_mig_addmessageclass.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202507191334460_mig_headingtitlechange.resx">
       <DependentUpon>202507191334460_mig_headingtitlechange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507210630433_mig_addmessageclass.resx">
+      <DependentUpon>202507210630433_mig_addmessageclass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
