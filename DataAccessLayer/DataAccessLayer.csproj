@@ -105,6 +105,10 @@
     <Compile Include="Migrations\202507210630433_mig_addmessageclass.Designer.cs">
       <DependentUpon>202507210630433_mig_addmessageclass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202507221708499_AddIsDraftToMessage.cs" />
+    <Compile Include="Migrations\202507221708499_AddIsDraftToMessage.Designer.cs">
+      <DependentUpon>202507221708499_AddIsDraftToMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -145,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202507210630433_mig_addmessageclass.resx">
       <DependentUpon>202507210630433_mig_addmessageclass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507221708499_AddIsDraftToMessage.resx">
+      <DependentUpon>202507221708499_AddIsDraftToMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

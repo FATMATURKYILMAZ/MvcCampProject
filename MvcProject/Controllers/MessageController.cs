@@ -34,5 +34,32 @@ namespace MvcProject.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult New1Message()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult New1Message(Message message, string submitButton)
+        {
+            message.MessageDate = DateTime.Now;
+            message.SenderMail = "admin@gmail.com"; // örnek sabit sender
+
+            if (submitButton == "Taslaklara Kaydet")
+            {
+                message.IsDraft = true;
+                cm.MessageyAdd(message);
+                return RedirectToAction("DraftList"); // Taslak listesine yönlendirme
+            }
+            else if (submitButton == "Gönder")
+            {
+                message.IsDraft = false;
+                cm.MessageyAdd(message);
+                return RedirectToAction("Sendbox"); // Gönderilen kutusuna yönlendirme
+            }
+
+            return View();
+        }
     }
 }
