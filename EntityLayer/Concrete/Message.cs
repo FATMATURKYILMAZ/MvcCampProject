@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;  // Bunu ekle
 
 namespace EntityLayer.Concrete
 {
@@ -20,9 +21,12 @@ namespace EntityLayer.Concrete
 
         [StringLength(100)]
         public string Subject { get; set; }
+        [AllowHtml]  // Bu satırı ekle
         public string MessageContent { get; set; }
         public DateTime MessageDate { get; set; }
-        public bool IsDraft { get; set; }  // Yeni eklendi: Taslak mı değil mi
+        public bool IsDraft { get; set; }
+        // Yeni eklendi: Taslak mı değil mi
+        public bool IsDeleted { get; set; }
 
     }
 }

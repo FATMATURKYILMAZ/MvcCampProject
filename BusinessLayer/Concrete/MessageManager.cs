@@ -17,10 +17,16 @@ namespace BusinessLayer.Concrete
         {
             _messageDal = messageDal;
         }
+        public List<Message> GetDraftMessages()
+        {
+            return _messageDal.List(x => x.IsDraft == true);
+        }
+
+
 
         public Message GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _messageDal.Get(x => x.MessageID == id);
         }
 
         public List<Message> GetListInbox()
@@ -31,12 +37,6 @@ namespace BusinessLayer.Concrete
         {
             return _messageDal.List(x => x.SenderMail == "admin@gmail.com");
         }
-
-        public void MessageDelete(Message message)
-        {
-            throw new NotImplementedException();
-        }
-
         public void MessageUpdate(Message message)
         {
             throw new NotImplementedException();
@@ -45,6 +45,26 @@ namespace BusinessLayer.Concrete
         public void MessageyAdd(Message message)
         {
             _messageDal.Insert(message);
+        }
+
+        public void MessageDelete(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Message> GetTrashList()
+        {
+            return _messageDal.List(x => x.IsDeleted == true && x.ReceiverMail == "admin@gmail.com");
+        }
+
+        public void MessageMoveToTrash(int id)
+        {
+            var message = _messageDal.Get(x => x.MessageID == id);
+            if (message != null)
+            {
+                message.IsDeleted = true;
+                _messageDal.Update(message);
+            }
         }
     }
 }

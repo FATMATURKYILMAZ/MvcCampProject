@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Drafts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>Taslak Mesajlar</h2>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Alıcı</th>
+        <th>Konu</th>
+        <th>Tarih</th>
+        <th>İşlemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ReceiverMail</td>
+            <td>@item.Subject</td>
+            <td>@item.MessageDate.ToShortDateString()</td>
+            <td>
+                @Html.ActionLink("Düzenle", "EditDraft", "Message", new { id = item.MessageID }, new { @class = "btn btn-warning btn-sm" })
+            </td>
+        </tr>
+    }
+</table>

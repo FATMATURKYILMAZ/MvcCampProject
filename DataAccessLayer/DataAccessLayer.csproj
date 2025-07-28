@@ -109,6 +109,14 @@
     <Compile Include="Migrations\202507221708499_AddIsDraftToMessage.Designer.cs">
       <DependentUpon>202507221708499_AddIsDraftToMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202507281318158_AddMessageIsDeleted.cs" />
+    <Compile Include="Migrations\202507281318158_AddMessageIsDeleted.Designer.cs">
+      <DependentUpon>202507281318158_AddMessageIsDeleted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202507281711497_mig_contactadddate.cs" />
+    <Compile Include="Migrations\202507281711497_mig_contactadddate.Designer.cs">
+      <DependentUpon>202507281711497_mig_contactadddate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,6 +160,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202507221708499_AddIsDraftToMessage.resx">
       <DependentUpon>202507221708499_AddIsDraftToMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507281318158_AddMessageIsDeleted.resx">
+      <DependentUpon>202507281318158_AddMessageIsDeleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507281711497_mig_contactadddate.resx">
+      <DependentUpon>202507281711497_mig_contactadddate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

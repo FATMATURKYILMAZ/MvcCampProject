@@ -1,0 +1,30 @@
+﻿@model List<EntityLayer.Concrete.Message>
+
+@{
+    ViewBag.Title = "Trash";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Çöp Kutusu</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Konu</th>
+        <th>Gönderen</th>
+        <th>Tarih</th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Subject</td>
+            <td>@item.SenderMail</td>
+            <td>@item.MessageDate.ToShortDateString()</td>
+            <td>
+                @Html.ActionLink("Geri Al", "RestoreFromTrash", new { id = item.MessageID }, new { @class = "btn btn-success btn-sm" })
+                @Html.ActionLink("Kalıcı Sil", "DeletePermanently", new { id = item.MessageID }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Kalıcı olarak silmek istediğine emin misin?');" })
+            </td>
+        </tr>
+    }
+</table>
