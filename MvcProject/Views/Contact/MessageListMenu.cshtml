@@ -1,5 +1,11 @@
-﻿<div class="col-md-3">
-    <a href="/Message/NewMessage/" class="btn btn-primary btn-block mb-3">Yeni Mesaj Oluştur</a>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString()?.ToLower();
+}
+
+<div class="col-md-3">
+    <a href="@Url.Action("NewMessage", "Message")" class="btn btn-primary btn-block mb-3">Yeni Mesaj Oluştur</a>
+
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Seçenekler</h3>
@@ -9,78 +15,62 @@
                 </button>
             </div>
         </div>
+
         <div class="card-body p-0">
             <ul class="nav nav-pills flex-column">
-                <li class="nav-item active">
-                    <a href="/Contact/Index/" class="nav-link">
+
+                @* İletişim *@
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Contact")"
+                       class="nav-link @(currentController == "contact" && currentAction == "index" ? "active" : "")">
                         <i class="fas fa-mail-bulk"></i> İletişim
                         <span class="badge bg-primary float-right">0</span>
                     </a>
                 </li>
-                <li class="nav-item active">
-                    <a href="/Message/Inbox/" class="nav-link">
+
+                @* Gelen Kutusu *@
+                <li class="nav-item">
+                    <a href="@Url.Action("Inbox", "Message")"
+                       class="nav-link @(currentAction == "inbox" ? "active" : "")">
                         <i class="fas fa-inbox"></i> Gelen Mesajlar
                         <span class="badge bg-primary float-right">12</span>
                     </a>
                 </li>
+
+                @* Gönderilenler *@
                 <li class="nav-item">
-                    <a href="/Message/Sendbox/" class="nav-link">
+                    <a href="@Url.Action("Sendbox", "Message")"
+                       class="nav-link @(currentAction == "sendbox" ? "active" : "")">
                         <i class="far fa-envelope"></i> Gönderilen Mesajlar
                     </a>
                 </li>
+
+                @* Taslaklar *@
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("Drafts", "Message")"
+                       class="nav-link @(currentAction == "drafts" ? "active" : "")">
                         <i class="far fa-file-alt"></i> Taslaklar
                     </a>
                 </li>
+
+                @* Spam *@
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("SpamBox", "Message")"
+                       class="nav-link @(currentAction == "spam" ? "active" : "")">
                         <i class="fas fa-filter"></i> Spam
                         <span class="badge bg-warning float-right">65</span>
                     </a>
                 </li>
+
+                @* Çöp Kutusu *@
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("Trash", "Message")"
+                       class="nav-link @(currentAction == "trash" ? "active" : "")">
                         <i class="far fa-trash-alt"></i> Çöp Kutusu
                     </a>
                 </li>
-            </ul>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Diğer</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <ul class="nav nav-pills flex-column">
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle text-danger"></i>
-                        Önemliler
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle text-warning"></i> Tanıtımlar
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle text-primary"></i>
-                        Sosyal Medya
-                    </a>
-                </li>
             </ul>
         </div>
-        <!-- /.card-body -->
     </div>
-    <!-- /.card -->
 </div>

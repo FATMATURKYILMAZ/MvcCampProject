@@ -1,6 +1,9 @@
 ﻿using BusinessLayer.Concrete;
+using BusinessLayer.ValidationsRules;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.Entity_Framework;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
 using System;
 using System.Web.Mvc;
 
@@ -10,6 +13,7 @@ namespace MvcProject.Controllers
     {
         // Business katmanından mesaj yöneticisi
         MessageManager cm = new MessageManager(new EfMessageDal());
+        MessageValidator messageValidator = new MessageValidator(); // FluentValidation sınıfı
 
         // Gelen kutusu mesajları
         public ActionResult Inbox()
@@ -29,6 +33,11 @@ namespace MvcProject.Controllers
             var values = cm.GetByID(id);
             return View(values);
         }
+        public ActionResult GetSendboxMessageDetails(int id)
+        {
+            var values = cm.GetByID(id);
+            return View(values);
+        }
 
         // Yeni mesaj oluşturma sayfası (GET)
         [HttpGet]
@@ -40,46 +49,98 @@ namespace MvcProject.Controllers
         // Yeni mesaj gönderme işlemi (POST)
         // submitType parametresi ile "taslak" veya "gönder" işlemi belirlenir
         [HttpPost]
-        [ValidateInput(false)]  // HTML içeriğini engellememek için
+        [ValidateInput(false)]
         public ActionResult NewMessage(Message p, string submitButton)
         {
-            p.MessageDate = DateTime.Now;
-            p.SenderMail = "admin@gmail.com";  // Sabit gönderici (isteğe bağlı dinamik yapılabilir)
+            ValidationResult results = messageValidator.Validate(p);     // Doğrulama işlemi
 
-            if (submitButton == "Taslaklara Kaydet")
+            if (results.IsValid)
             {
-                p.IsDraft = true;
-                p.IsDeleted = false;
-                cm.MessageyAdd(p);
-                return RedirectToAction("Drafts");
+                p.MessageDate = DateTime.Now;
+                p.SenderMail = "admin@gmail.com";
+
+                if (submitButton == "Taslaklara Kaydet")
+                {
+                    p.IsDraft = true;
+                    p.IsDeleted = false;
+                    cm.MessageyAdd(p);
+                    return RedirectToAction("Drafts");
+                }
+                else if (submitButton == "Gönder")
+                {
+                    p.IsDraft = false;
+                    p.IsDeleted = false;
+                    cm.MessageyAdd(p);
+                    return RedirectToAction("Sendbox");
+                }
+                else if (submitButton == "İptal Et")
+                {
+                    p.IsDraft = false;
+                    p.IsDeleted = true;
+                    cm.MessageyAdd(p);
+                    return RedirectToAction("Trash");
+                }
             }
-            else if (submitButton == "Gönder")
+            else
             {
-                p.IsDraft = false;
-                p.IsDeleted = false;
-                cm.MessageyAdd(p);
-                return RedirectToAction("Sendbox");
-            }
-            else if (submitButton == "İptal Et")
-            {
-                p.IsDraft = false;
-                p.IsDeleted = true;
-                cm.MessageyAdd(p);
-                return RedirectToAction("Trash");
+                foreach (var item in results.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
             }
 
-            return View(p); // Diğer durumlarda formu geri döndür
+            return View(p);
         }
 
 
 
-        // Taslak mesaj düzenleme sayfası (GET)
+        // GET: Taslak mesaj düzenleme formu
         [HttpGet]
         public ActionResult EditDraft(int id)
         {
             var draftMessage = cm.GetByID(id);
+            if (draftMessage == null)
+                return HttpNotFound();
+
             return View(draftMessage);
         }
+
+        // POST: Taslak mesaj güncelleme
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditDraft(Message p, string submitButton)
+        {
+            ValidationResult results = messageValidator.Validate(p);
+            if (results.IsValid)
+            {
+                p.MessageDate = DateTime.Now;
+                p.SenderMail = "admin@gmail.com";
+
+                if (submitButton == "Taslakları Güncelle")
+                {
+                    p.IsDraft = true;
+                    p.IsDeleted = false;
+                    cm.MessageUpdate(p);
+                    return RedirectToAction("Drafts");
+                }
+                else if (submitButton == "Gönder")
+                {
+                    p.IsDraft = false;
+                    p.IsDeleted = false;
+                    cm.MessageUpdate(p);
+                    return RedirectToAction("Sendbox");
+                }
+            }
+            else
+            {
+                foreach (var error in results.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+            }
+            return View(p);
+        }
+
 
         // Taslak mesajlar listesi
         public ActionResult Drafts()
@@ -97,5 +158,29 @@ namespace MvcProject.Controllers
             cm.MessageMoveToTrash(id);
             return RedirectToAction("Inbox");
         }
+        // Spam olarak işaretleme
+        [HttpPost]
+        public ActionResult MarkAsNotSpam(int id)
+        {
+            cm.MarkAsNotSpam(id); // MessageManager'daki metot
+            return RedirectToAction("SpamBox");
+        }
+
+
+        [HttpPost]
+        public ActionResult MarkAsSpam(int id)
+        {
+            cm.MarkAsSpam(id);
+            return RedirectToAction("SpamBox");
+        }
+
+
+
+        public ActionResult SpamBox()
+        {
+            var spamMessages = cm.GetSpamList();
+            return View(spamMessages);
+        }
+
     }
 }

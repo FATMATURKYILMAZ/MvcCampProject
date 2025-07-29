@@ -18,5 +18,9 @@ namespace BusinessLayer.Abstract
         void MessageUpdate(Message message);
         List<Message> GetTrashList();
         void MessageMoveToTrash(int id);
+        // Yeni spam metodları
+        List<Message> GetSpamList();           // Spam mesajları listele
+        void MarkAsNotSpam(int id);             // Spam değil olarak işaretle
+        bool IsSpamMessage(Message message);    // Mesajın spam olup olmadığını kontrol et
     }
 }

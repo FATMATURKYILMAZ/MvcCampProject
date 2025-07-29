@@ -90,7 +90,16 @@
                                                 <b>@item.Subject</b> - @item.MessageContent.Substring(0, 30)...
                                             </td>
                                             <td class="mailbox-attachment"></td>
-                                            <td class="mailbox-date"> @(((DateTime)item.MessageDate).ToString("dd-MM-yyyy"))</td>
+                                            <td class="mailbox-date">
+                                                @(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy", new System.Globalization.CultureInfo("tr-TR")))
+                                            </td>
+                                            <td>
+                                                <form action="/Message/MarkAsSpam/" method="post">
+                                                    <input type="hidden" name="id" value="@item.MessageID" />
+                                                    <button type="submit" class="btn btn-sm btn-danger">Spam</button>
+                                                </form>
+                                            </td>
+
                                         </tr>
                                     }
                                 </tbody>

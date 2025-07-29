@@ -2315,6 +2315,9 @@
     <Content Include="Views\Message\Drafts.cshtml" />
     <Content Include="Views\Message\Trash.cshtml" />
     <Content Include="Views\Message\GetInboxMessageDetails.cshtml" />
+    <Content Include="Views\Message\GetSendboxMessageDetails.cshtml" />
+    <Content Include="Views\Message\EditDraft.cshtml" />
+    <Content Include="Views\Message\SpamBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,40 +1,37 @@
 ﻿@using EntityLayer.Concrete
 @model List<Message>
 @{
-    ViewBag.Title = "Drafts";
+    ViewBag.Title = "Spam";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <!DOCTYPE html>
 <html>
 <body class="hold-transition sidebar-mini">
 
-    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Taslak Mesajlar</h1>
+                    <h1>Spam Kutusu</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Drafts</li>
+                        <li class="breadcrumb-item active">Spam</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <div class="row">
             @Html.Action("MessageListMenu", "Contact")
-           
-            <!-- Taslak Mesajlar -->
+
             <div class="col-md-9">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">Taslaklar</h3>
+                        <h3 class="card-title">Spam Mesajlar</h3>
                     </div>
 
                     <div class="card-body p-0">
@@ -42,7 +39,7 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Alıcı</th>
+                                        <th>Gönderen</th>
                                         <th>Konu</th>
                                         <th>Tarih</th>
                                         <th>İşlemler</th>
@@ -52,11 +49,14 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.ReceiverMail</td>
+                                            <td>@item.SenderMail</td>
                                             <td><strong>@item.Subject</strong></td>
                                             <td>@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy", new System.Globalization.CultureInfo("tr-TR")))</td>
                                             <td>
-                                                @Html.ActionLink("Düzenle", "EditDraft", "Message", new { id = item.MessageID }, new { @class = "btn btn-warning btn-sm" })
+                                                <form action="@Url.Action("MarkAsNotSpam", "Message")" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="@item.MessageID" />
+                                                    <button type="submit" class="btn btn-sm btn-success">Spam Değil</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     }

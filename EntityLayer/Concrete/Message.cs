@@ -27,6 +27,8 @@ namespace EntityLayer.Concrete
         public bool IsDraft { get; set; }
         // Yeni eklendi: Taslak mı değil mi
         public bool IsDeleted { get; set; }
+        public bool IsSpam { get; set; }
+
 
     }
 }

@@ -3,13 +3,10 @@ using DataAccessLayer.Abstract;
 using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrete
 {
-    public class MessageManager:IMessageService
+    public class MessageManager : IMessageService
     {
         IMessageDal _messageDal;
 
@@ -17,12 +14,11 @@ namespace BusinessLayer.Concrete
         {
             _messageDal = messageDal;
         }
+
         public List<Message> GetDraftMessages()
         {
             return _messageDal.List(x => x.IsDraft == true);
         }
-
-
 
         public Message GetByID(int id)
         {
@@ -31,19 +27,23 @@ namespace BusinessLayer.Concrete
 
         public List<Message> GetListInbox()
         {
-            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com");
+            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com" && x.IsSpam == false);
         }
+
         public List<Message> GetListSendbox()
         {
             return _messageDal.List(x => x.SenderMail == "admin@gmail.com");
         }
+
         public void MessageUpdate(Message message)
         {
-            throw new NotImplementedException();
+            _messageDal.Update(message);
         }
 
         public void MessageyAdd(Message message)
         {
+            // Mesaj spam mı kontrol et
+            message.IsSpam = IsSpamMessage(message);
             _messageDal.Insert(message);
         }
 
@@ -66,5 +66,45 @@ namespace BusinessLayer.Concrete
                 _messageDal.Update(message);
             }
         }
+
+        public bool IsSpamMessage(Message message)
+        {
+            var spamKeywords = new List<string> { "para kazan", "bedava", "tıkla", "reklam", "kampanya", "ürün" };
+            string contentToCheck = (message.Subject + " " + message.MessageContent).ToLower();
+
+            foreach (var keyword in spamKeywords)
+            {
+                if (contentToCheck.Contains(keyword))
+                    return true;
+            }
+            return false;
+        }
+
+        public List<Message> GetSpamList()
+        {
+            return _messageDal.List(x => x.IsSpam == true && x.ReceiverMail == "admin@gmail.com");
+        }
+
+        public void MarkAsNotSpam(int id)
+        {
+            var message = _messageDal.Get(x => x.MessageID == id);
+            if (message != null)
+            {
+                message.IsSpam = false;
+                MessageUpdate(message);
+            }
+        }
+
+        public void MarkAsSpam(int id)
+        {
+            var message = _messageDal.Get(x => x.MessageID == id);
+            if (message != null)
+            {
+                message.IsSpam = true;
+                MessageUpdate(message);
+            }
+        }
+
+
     }
 }
